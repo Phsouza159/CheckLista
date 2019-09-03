@@ -1,0 +1,12 @@
+{
+    "urlPathModule" : "http://localhost:3000/js/atlas-engine/dist/modules/",
+
+    "modules" : [
+        {
+            "Name" : "if",
+            "method" : "if",
+            "version" : "1.0.0",
+            "path" : "atlas.if.js"
+        }       
+    ]
+}

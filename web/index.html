@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="pragma" content="no-cache">
+
+    <title>Check List</title>
+
+    <link rel="stylesheet" href="./assets/css/style.site.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+
+</head>
+<body>
+
+    <section class="container">
+       
+        <route id='app-root'></route>
+
+    </section>
+
+    <script src="./assets/js/atlas.build.js"></script>
+    <script>
+        var app      
+
+            let server = async function(){
+
+            let data = fetch('./atls.config.json')
+            let json = await data
+                .then((data) => data.json())
+                .catch((err) => console.error(err))   
+
+            if(json != null)
+                app = new AtlasCtor(json)
+
+            else 
+                throw 'objeto config não carregado'
+        }
+
+        server()
+    </script>
+</body>
+</html>

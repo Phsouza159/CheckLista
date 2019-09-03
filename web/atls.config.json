@@ -1,0 +1,35 @@
+{
+    "id": "route-pag",
+    "index": "/listagem",
+    "master": {
+      "url" : "./pags/master.html" , 
+      "idInsert" : "app-root"
+    },
+    "securyte": false,
+
+    "root": "http://localhost:8080/CheckList",
+    "pushState" : false,
+    "modulesJson" : "./js/atlas-engine/resources/modules.json",
+
+    "rout": [
+        { "url" : "./pags/index.pag.html" ,     "autentificacao" : false , "name" : "index"     , "path" : "/index"       , "title" : "home" }
+      , { "url" : "./pags/listagem.pag.html" ,  "autentificacao" : false , "name" : "listagem"  , "path" : "/listagem"    , "title" : "listagem" }
+      , { "url" : "./pags/cadastrar.pag.html" , "autentificacao" : false , "name" : "cadastrar" , "path" : "/cadastrar"   , "title" : "cadastrar" }
+      , { "url" : "./pags/checkList.pag.html" , "autentificacao" : false , "name" : "index"     , "path" : "/checkList"   , "title" : "checkList" }
+      , { "url" : "./pags/checkItem.pag.html" , "autentificacao" : false , "name" : "checkItem"     , "path" : "/checkItem"   , "title" : "checkItem" }
+    ],
+
+    "required": {
+      "scripts": [
+        "./vendor/bootstrap/dist/js/bootstrap.js"
+      ],
+      "links": [
+        "./css/default.css"
+      ],
+      "partialViews": [
+        {
+            "view": "./pags/views/list.view.html"  , "name" : "listView", "ids": ["list-view"]
+        } 
+      ]
+    } 
+}

@@ -1,0 +1,123 @@
+<div>
+    <section>
+
+        <form action="" method="post">
+        </form>
+
+        <section class='row'>
+            <section class='col-8'>
+                <label>Objetivo</label> <br />
+
+                <textarea class='w-100' name="" id="" rows="5" onkeydown="registrarObjetivo(this)"></textarea>
+
+            </section>
+            <section class='col-4'>
+                <label>Sub-objetivos</label>
+                <br />
+                <textarea class='w-100' name="" id="subObjetivo" rows="5"></textarea>
+                <br />
+
+                <button onclick="adicionarItemFormulario()">Adicionar</button>
+            </section>
+        </section>
+        <section class="mt-2 mb-2"> 
+            <button onclick="salvaCheckList()" >Salvar</button>
+        </section>
+
+        <div class="card border-dark mb-3" >
+            <div class="card-header">Visualização:</div>
+           
+            <div class="card-body text-dark">
+                <p class="h5">Objetivo:</p>
+                <hr/>
+
+                <p id='objetivo' class="card-title h5"></>
+                <hr/>
+                <label>Sub-objetivos</label>
+                <ul id="insertItens"></ul>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+    let salvaCheckList = async () => {
+        let data = preparaFormularioData()
+        console.log(JSON.stringify(data))
+        let resp = await AtlasApp.mod.sendJson( data ,'./addItem')
+        console.log(resp)
+    }
+
+    let preparaFormularioData = () => {
+        let objetivo , subObjetivos , campos = [] , data
+
+        objetivo = document.getElementById('objetivo')
+        subObjetivos = Array.from(document.querySelectorAll('#insertItens label'))
+
+        data = { textoObjetivo : objetivo.innerText }
+        data.subObjetivos = []
+
+        subObjetivos.map( item => {
+            data.subObjetivos.push({ textoSubObjetivo : item.innerText , isCheck : false })
+        })
+
+        return data;
+    }
+
+
+    let registrarObjetivo = (element) => {
+        let objetivoElement = document.getElementById('objetivo')
+
+        objetivoElement.innerHTML = element.value
+    }
+
+    let adicionarItemFormulario = () => {
+        let element = document.getElementById('subObjetivo')
+        let text = element.value
+        element.value = null
+        let li = createItemLi(text)
+        insertItemLista(li)
+    }
+
+    let insertItemLista = (li) => {
+        let ul = document.getElementById('insertItens')
+
+        ul.appendChild(li)
+    }
+
+    let createItemLi = (text) => {
+        let li , label 
+        
+        li = document.createElement('li')
+        label = document.createElement('label')
+        label.innerText = text
+
+        li.appendChild(createButtomRemoveItem())
+        li.appendChild(label)
+
+        return li
+    }
+
+    let removeItemLista = (mouseEvent) => {
+        let target , parent , ul
+        target = mouseEvent.target
+        parent = target.parentNode;
+        ul     = document.getElementById('insertItens')
+
+        ul.removeChild(parent)
+    }
+
+    let createButtomRemoveItem = () => {
+        let btn = document.createElement('button')
+        btn.innerText = 'X'
+        btn.onclick = removeItemLista
+
+        return btn
+    } 
+
+
+    console.log('start')
+</script>

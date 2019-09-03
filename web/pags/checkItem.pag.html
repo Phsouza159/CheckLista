@@ -1,0 +1,79 @@
+<section>
+    <label class="h1">Tititulo projeto:</label>
+    <hr />
+
+    <section class="mt-2 bs-callout bg-white">
+        <p class="h5">Objetivo principal</p>
+
+        <div class="form-group form-check">
+            <label id='objetivo-princial'>Check me out</label>
+        </div>
+
+    </section>
+
+    <p>Sub-objetivos:</p>
+   
+    <section id='sub-objetivos'>
+        <section class="mt-1 ml-5 mr-5 bs-callout bg-white">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">{{elemento.textoSubObjetivo}}</label>
+            </div>
+        </section>
+    </section>  
+   
+    <hr />
+</section>
+
+
+<script>
+
+    var onloadPag = async () => {
+        let id , item 
+
+        id = AtlasApp.cache.idShered
+        AtlasApp.cache.idShered = null
+
+        console.log(id); 
+
+        item = await recuperarCheckList(id)
+        console.log(item);
+        carregarCheckTela(item)
+    } 
+
+    let recuperarCheckList = async (id) => {
+        let checkItem
+        checkItem = await AtlasApp.sys.OnGet(`./addItem?id=${id}`)
+        return JSON.parse(checkItem[0]);
+    }
+
+
+    let carregarCheckTela = (item) => {
+
+        carregarObjetivoPrincipal(item)
+        carregarSubObjetivos(item)
+    } 
+
+    let carregarObjetivoPrincipal = (item) => {
+        let element 
+        element = document.getElementById('objetivo-princial')
+
+        element.innerText = item.textoObjetivo
+    }
+
+    let carregarSubObjetivos = (item) => {
+        let element
+
+        element = document.getElementById('sub-objetivos')
+
+        window.$getFor = item.subObjetivos;
+
+        AtlasApp.mod.for('var elemento of $getFor' , element);
+    }
+
+    AtlasApp.core.onloadRoutImportScript('/checkItem', function () {
+
+        onloadPag();
+    });
+    
+</script>

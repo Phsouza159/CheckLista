@@ -1,0 +1,69 @@
+<div>
+
+   <table class="table table-lg w-100 text-center"
+        data-get='{ "url" : "./addItem" , "callback" : "gerarTableCheckLista" }' >
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Objetivo</th>
+                <th>Data criação</th>
+                <th colspan="2">Operações</th>
+            </tr>
+        </thead>
+        <tbody id='table-lista-checklista'>
+            <tr>
+                <td>{{elemento.Id}}</td>
+                <td>{{elemento.textoObjetivo}}</td>
+                <td>{{elemento.DataInclusao}}</td>
+                <td onclick="redirectItemById( this )" data-idElemento='{{elemento.Id}}'>Visualizar</td>
+                <td onclick="excluirRegistro( this )" data-idElemento='{{elemento.Id}}' ><a href="#">Excluir</a></td>
+            </tr>
+        </tbody>
+   </table>
+
+</div>
+
+<script>
+
+    var gerarTableCheckLista = (data) => {
+        let tableElement
+
+        Window.$getResponse = JSON.parse(data);
+        tableElement = document.getElementById('table-lista-checklista');
+
+        AtlasApp.mod.for('var elemento of $getResponse' , tableElement);
+    }
+
+    let excluirRegistro = async ( elementoClick ) => {
+        let id , result
+
+        id = elementoClick.dataset.idelemento;
+
+        if(confirm(`Deseja excluir o item ${id}`)){
+
+            result = await deletItemById(id);
+            console.log(result)
+        }
+    }
+
+    let deletItemById = async (id) => {
+        let result = await AtlasApp.sys.OnDelete(`./addItem?id=${id}` , {})
+                .then((data) => data)
+                .then((data) => data)
+                .catch((data) => console.error(data));
+
+        return await JSON.parse(result);
+    }
+
+    let redirectItemById = (elementoClick) => {
+        let id , rout 
+
+        id = elementoClick.dataset.idelemento;
+
+        AtlasApp.cache.idShered = id;
+
+        rout = AtlasApp.core.rout('/checkItem');
+        AtlasApp.core.setRoutView(rout);
+    }
+
+</script>
